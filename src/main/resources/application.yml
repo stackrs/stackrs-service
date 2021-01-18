@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: stackrs-service
+  profiles:
+    active: DEV
+security:
+  config:
+    binance_api_key: ${sm://binance_api_key}
+    binance_api_secret: ${sm://binance_api_secret}
+api:
+  config:
+    coinmarketcap:
+      coinmarketcap_api_key: ${sm://coinmarketcap_api_key}
+      latest_listings_endpoint: https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest
