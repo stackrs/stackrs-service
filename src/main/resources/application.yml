@@ -10,5 +10,12 @@ security:
 api:
   config:
     coinmarketcap:
+      base_uri: https://sandbox-api.coinmarketcap.com/v1
       coinmarketcap_api_key: ${sm://coinmarketcap_api_key}
-      latest_listings_endpoint: https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest
+      latest_listings_uri: /cryptocurrency/listings/latest
+      timeout: 10000
+      start: 1
+      limit: 100
+      convert: BTC
+
+
