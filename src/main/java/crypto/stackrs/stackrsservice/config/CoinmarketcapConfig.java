@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class CoinmarketcapConfig {
   private String base_uri;
-  private String coinmarketcap_api_key;
   private String latest_listings_uri;
   private int timeout;
   private int start;
