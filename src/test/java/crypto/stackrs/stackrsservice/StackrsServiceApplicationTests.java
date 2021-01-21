@@ -3,16 +3,16 @@ package crypto.stackrs.stackrsservice;
 import crypto.stackrs.stackrsservice.coinmarketcap.CoinmarketcapQueries;
 import crypto.stackrs.stackrsservice.coinmarketcap.listing.Listing;
 import crypto.stackrs.stackrsservice.config.CoinmarketcapConfig;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Slf4j
+@ActiveProfiles("test")
 class StackrsServiceApplicationTests {
 
   private final CoinmarketcapQueries coinmarketcapQueries;
