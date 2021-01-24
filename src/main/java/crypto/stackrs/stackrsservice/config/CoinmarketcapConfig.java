@@ -13,5 +13,4 @@ public class CoinmarketcapConfig {
   private int timeout;
   private int start;
   private int limit;
-  private String convert;
 }

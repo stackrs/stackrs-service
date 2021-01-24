@@ -2,7 +2,9 @@ package crypto.stackrs.stackrsservice.binance;
 
 import com.google.common.collect.HashMultimap;
 import crypto.stackrs.stackrsservice.binance.accountsnapshot.AccountSnapshot;
+import crypto.stackrs.stackrsservice.binance.accountsnapshot.SnapVos;
 import crypto.stackrs.stackrsservice.binance.exchangeinfo.ExchangeInfo;
+import crypto.stackrs.stackrsservice.config.AlgoConfig;
 import crypto.stackrs.stackrsservice.config.BinanceConfig;
 import crypto.stackrs.stackrsservice.config.SecurityConfig;
 import crypto.stackrs.stackrsservice.config.WebClientConfiguration;
@@ -26,10 +28,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Data
 @Service
@@ -39,6 +39,7 @@ public class BinanceQueriesImpl implements BinanceQueries {
 
   private final SecurityConfig securityConfig;
   private final BinanceConfig binanceConfig;
+  private final AlgoConfig algoConfig;
   private final WebClientConfiguration webClientConfiguration;
 
   private static final String API_KEY = "X-MBX-APIKEY";
@@ -48,9 +49,11 @@ public class BinanceQueriesImpl implements BinanceQueries {
 
   public BinanceQueriesImpl(final SecurityConfig securityConfig,
                             final BinanceConfig binanceConfig,
+                            final AlgoConfig algoConfig,
                             final WebClientConfiguration webClientConfiguration) {
     this.securityConfig = securityConfig;
     this.binanceConfig = binanceConfig;
+    this.algoConfig = algoConfig;
     this.webClientConfiguration = webClientConfiguration;
   }
 
@@ -88,6 +91,20 @@ public class BinanceQueriesImpl implements BinanceQueries {
         error -> Mono.error(new RuntimeException("Server replied with error " + error.rawStatusCode())))
       .bodyToMono(AccountSnapshot.class)
       .block();
+  }
+
+  @Override
+  public double targetCoinBalance() {
+    return Double.parseDouble(accountsnapshot().getSnapshotVos().stream()
+      .max(Comparator.comparing(SnapVos::getUpdateTime))
+      .orElseThrow(NoSuchElementException::new)
+      .getData()
+      .getBalances()
+      .stream()
+      .filter(balance -> algoConfig.getTarget_coin().equals(balance.getAsset()))
+      .findFirst()
+      .orElseThrow(NoSuchElementException::new)
+      .getFree());
   }
 
   private MultiValueMap<String, String> validatedQueryParams(MultiValueMap<String, String> query_params_in) {

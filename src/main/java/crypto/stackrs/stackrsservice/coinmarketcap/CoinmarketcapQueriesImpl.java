@@ -1,6 +1,7 @@
 package crypto.stackrs.stackrsservice.coinmarketcap;
 
 import crypto.stackrs.stackrsservice.coinmarketcap.listing.Listing;
+import crypto.stackrs.stackrsservice.config.AlgoConfig;
 import crypto.stackrs.stackrsservice.config.CoinmarketcapConfig;
 import crypto.stackrs.stackrsservice.config.SecurityConfig;
 import crypto.stackrs.stackrsservice.config.WebClientConfiguration;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 @Qualifier("coinmarketcapqueriesimpl")
 public class CoinmarketcapQueriesImpl implements CoinmarketcapQueries{
 
+  private final AlgoConfig algoConfig;
   private final SecurityConfig securityConfig;
   private final CoinmarketcapConfig coinmarketcapConfig;
   private final WebClientConfiguration webClientConfiguration;
@@ -26,9 +28,11 @@ public class CoinmarketcapQueriesImpl implements CoinmarketcapQueries{
   private static final String LIMIT_PARAM = "limit";
   private static final String CONVERT_PARAM = "convert";
 
-  public CoinmarketcapQueriesImpl(final SecurityConfig securityConfig,
+  public CoinmarketcapQueriesImpl(final AlgoConfig algoConfig,
+                                  final SecurityConfig securityConfig,
                                   final CoinmarketcapConfig coinmarketcapConfig,
                                   final WebClientConfiguration webClientConfiguration) {
+    this.algoConfig = algoConfig;
     this.securityConfig = securityConfig;
     this.coinmarketcapConfig = coinmarketcapConfig;
     this.webClientConfiguration = webClientConfiguration;
@@ -42,7 +46,7 @@ public class CoinmarketcapQueriesImpl implements CoinmarketcapQueries{
       .uri(uriBuilder -> uriBuilder.path(coinmarketcapConfig.getLatest_listings_uri())
         .queryParam(START_PARAM, coinmarketcapConfig.getStart())
         .queryParam(LIMIT_PARAM, coinmarketcapConfig.getLimit())
-        .queryParam(CONVERT_PARAM, coinmarketcapConfig.getConvert())
+        .queryParam(CONVERT_PARAM, algoConfig.getTarget_coin())
         .build())
       .header(API_KEY, securityConfig.getCoinmarketcap_api_key())
       .retrieve()

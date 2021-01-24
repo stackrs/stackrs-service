@@ -6,4 +6,5 @@ import crypto.stackrs.stackrsservice.binance.exchangeinfo.ExchangeInfo;
 public interface BinanceQueries {
   ExchangeInfo exchangeinfo();
   AccountSnapshot accountsnapshot();
+  double targetCoinBalance();
 }

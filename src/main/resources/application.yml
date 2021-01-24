@@ -8,6 +8,8 @@ security:
     binance_api_key: ${sm://binance_api_key}
     binance_api_secret: ${sm://binance_api_secret}
     coinmarketcap_api_key: ${sm://coinmarketcap_api_key}
+algo:
+  target_coin: BTC
 
 ---
 
@@ -21,7 +23,6 @@ api:
       timeout: 10000
       start: 1
       limit: 100
-      convert: BTC
     binance:
       base_uri: https://api.binance.com
       exchange_info_url: /api/v3/exchangeInfo
@@ -41,7 +42,6 @@ api:
       timeout: 10000
       start: 1
       limit: 100
-      convert: BTC
     binance:
       base_uri: https://api.binance.com
       exchange_info_url: /api/v3/exchangeInfo
