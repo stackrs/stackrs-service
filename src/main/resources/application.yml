@@ -22,6 +22,10 @@ api:
       start: 1
       limit: 100
       convert: BTC
+    binance:
+      base_uri: https://api.binance.com/api/v3
+      exchange_info_url: /exchangeInfo
+      timeout: 10000
 
 ---
 
@@ -36,3 +40,7 @@ api:
       start: 1
       limit: 100
       convert: BTC
+    binance:
+      base_uri: https://api.binance.com/api/v3
+      exchange_info_url: /exchangeInfo
+      timeout: 10000

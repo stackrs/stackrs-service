@@ -1,7 +1,10 @@
 package crypto.stackrs.stackrsservice;
 
+import crypto.stackrs.stackrsservice.binance.BinanceQueries;
+import crypto.stackrs.stackrsservice.binance.exchangeinfo.ExchangeInfo;
 import crypto.stackrs.stackrsservice.coinmarketcap.CoinmarketcapQueries;
 import crypto.stackrs.stackrsservice.coinmarketcap.listing.Listing;
+import crypto.stackrs.stackrsservice.config.BinanceConfig;
 import crypto.stackrs.stackrsservice.config.CoinmarketcapConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +20,18 @@ class StackrsServiceApplicationTests {
 
   private final CoinmarketcapQueries coinmarketcapQueries;
   private final CoinmarketcapConfig coinmarketcapConfig;
+  private final BinanceQueries binanceQueries;
+  private final BinanceConfig binanceConfig;
 
   @Autowired
-  public StackrsServiceApplicationTests(@Qualifier("coinmarketcapqueriesimpl") CoinmarketcapQueries coinmarketcapQueries, CoinmarketcapConfig coinmarketcapConfig) {
+  public StackrsServiceApplicationTests(
+    @Qualifier("coinmarketcapqueriesimpl") CoinmarketcapQueries coinmarketcapQueries,
+    @Qualifier("binancequeriesimpl") BinanceQueries binanceQueries,
+    CoinmarketcapConfig coinmarketcapConfig, BinanceConfig binanceConfig) {
     this.coinmarketcapQueries = coinmarketcapQueries;
+    this.binanceQueries = binanceQueries;
     this.coinmarketcapConfig = coinmarketcapConfig;
+    this.binanceConfig = binanceConfig;
   }
 
   @Test
@@ -37,6 +47,15 @@ class StackrsServiceApplicationTests {
     assertThat(listings.getData().size()).isEqualTo(coinmarketcapConfig.getLimit());
     assertThat(listings.getData().get(0).getId()).isEqualTo(coinmarketcapConfig.getStart());
     assertThat(listings.getData().get(0).getQuote().containsKey(coinmarketcapConfig.getConvert())).isTrue();
+
+  }
+
+  @Test
+  void canGetBinanceAPIExchangeInfo() {
+
+    ExchangeInfo exchangeInfo = binanceQueries.exchangeinfo();
+
+    assertThat(exchangeInfo.getSymbols().size()).isGreaterThan(0);
 
   }
 

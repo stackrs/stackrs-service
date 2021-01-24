@@ -3,7 +3,7 @@ package crypto.stackrs.stackrsservice.coinmarketcap;
 import crypto.stackrs.stackrsservice.coinmarketcap.listing.Listing;
 import crypto.stackrs.stackrsservice.config.CoinmarketcapConfig;
 import crypto.stackrs.stackrsservice.config.SecurityConfig;
-import crypto.stackrs.stackrsservice.web.WebClientConfiguration;
+import crypto.stackrs.stackrsservice.config.WebClientConfiguration;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
