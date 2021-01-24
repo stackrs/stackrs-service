@@ -9,4 +9,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class SecurityConfig {
   private String coinmarketcap_api_key;
+  private String binance_api_key;
+  private String binance_api_secret;
 }

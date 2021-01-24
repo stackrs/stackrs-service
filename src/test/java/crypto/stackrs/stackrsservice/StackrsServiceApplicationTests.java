@@ -1,6 +1,7 @@
 package crypto.stackrs.stackrsservice;
 
 import crypto.stackrs.stackrsservice.binance.BinanceQueries;
+import crypto.stackrs.stackrsservice.binance.accountsnapshot.AccountSnapshot;
 import crypto.stackrs.stackrsservice.binance.exchangeinfo.ExchangeInfo;
 import crypto.stackrs.stackrsservice.coinmarketcap.CoinmarketcapQueries;
 import crypto.stackrs.stackrsservice.coinmarketcap.listing.Listing;
@@ -52,11 +53,16 @@ class StackrsServiceApplicationTests {
 
   @Test
   void canGetBinanceAPIExchangeInfo() {
-
     ExchangeInfo exchangeInfo = binanceQueries.exchangeinfo();
 
     assertThat(exchangeInfo.getSymbols().size()).isGreaterThan(0);
+  }
 
+  @Test
+  void canGetBinanceAPIAccountSnapshot() {
+    AccountSnapshot accountSnapshot = binanceQueries.accountsnapshot();
+
+    assertThat(accountSnapshot.getSnapshotVos().size()).isGreaterThan(0);
   }
 
 }

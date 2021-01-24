@@ -23,9 +23,11 @@ api:
       limit: 100
       convert: BTC
     binance:
-      base_uri: https://api.binance.com/api/v3
-      exchange_info_url: /exchangeInfo
+      base_uri: https://api.binance.com
+      exchange_info_url: /api/v3/exchangeInfo
+      account_snapshot_uri: /sapi/v1/accountSnapshot
       timeout: 10000
+      snap_type: SPOT
 
 ---
 
@@ -41,6 +43,8 @@ api:
       limit: 100
       convert: BTC
     binance:
-      base_uri: https://api.binance.com/api/v3
-      exchange_info_url: /exchangeInfo
+      base_uri: https://api.binance.com
+      exchange_info_url: /api/v3/exchangeInfo
+      account_snapshot_uri: /sapi/v1/accountSnapshot
       timeout: 10000
+      snap_type: SPOT

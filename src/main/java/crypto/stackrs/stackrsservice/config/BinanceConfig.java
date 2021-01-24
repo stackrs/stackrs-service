@@ -10,5 +10,7 @@ import org.springframework.stereotype.Component;
 public class BinanceConfig {
   private String base_uri;
   private String exchange_info_url;
+  private String account_snapshot_uri;
   private int timeout;
+  private String snap_type;
 }
