@@ -9,4 +9,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class AlgoConfig {
   private String target_coin;
+  private double target_min_balance;
+  private double target_profit;
 }

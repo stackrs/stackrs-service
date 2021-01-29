@@ -40,7 +40,7 @@ public class CoinmarketcapQueriesImpl implements CoinmarketcapQueries{
 
   @Override
   public Listing listings() {
-    return webClientConfiguration
+    Listing listings = webClientConfiguration
       .webClientWithTimeout(coinmarketcapConfig.getBase_uri(), coinmarketcapConfig.getTimeout())
       .get()
       .uri(uriBuilder -> uriBuilder.path(coinmarketcapConfig.getLatest_listings_uri())
@@ -56,5 +56,9 @@ public class CoinmarketcapQueriesImpl implements CoinmarketcapQueries{
         error -> Mono.error(new RuntimeException("Server replied with error " + error.rawStatusCode())))
       .bodyToMono(Listing.class)
       .block();
+
+    listings.getData().forEach((d) -> d.setTarget_coin_quote(d.getQuote().get(algoConfig.getTarget_coin())));
+
+    return listings;
   }
 }

@@ -12,4 +12,5 @@ public class ListingEntry {
   private String name;
   private String symbol;
   private Map<String, Quote> quote = new HashMap<>();
+  private Quote target_coin_quote;
 }
