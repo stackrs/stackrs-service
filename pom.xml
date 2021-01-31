@@ -22,9 +22,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.binance.api</groupId>
-      <artifactId>binance-api-client</artifactId>
-      <version>1.0.1</version>
+      <groupId>com.github.binance-exchange</groupId>
+      <artifactId>binance-java-api</artifactId>
+      <version>86b16b885b</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -64,6 +64,13 @@
       </exclusions>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
 
   <dependencyManagement>
     <dependencies>

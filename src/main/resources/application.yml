@@ -9,8 +9,10 @@ security:
     binance_api_secret: ${sm://binance_api_secret}
     coinmarketcap_api_key: ${sm://coinmarketcap_api_key}
 algo:
+  base_fiat: GBP
+  target_fiat_amount: 15
   target_coin: BTC
-  target_min_balance: 0.00000001
+  target_min_balance: 0.00006683
   target_profit: 0.065
 
 ---

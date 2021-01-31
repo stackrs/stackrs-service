@@ -1,6 +1,7 @@
 package crypto.stackrs.stackrsservice;
 
 import crypto.stackrs.stackrsservice.algo.Algo;
+import crypto.stackrs.stackrsservice.algo.BuyAndHodl;
 import crypto.stackrs.stackrsservice.algo.BuyLowSellHigh;
 import crypto.stackrs.stackrsservice.coinmarketcap.CoinmarketcapQueries;
 import crypto.stackrs.stackrsservice.coinmarketcap.listing.Listing;
@@ -26,9 +27,9 @@ class StackrsServiceApplicationTests {
   @Autowired
   public StackrsServiceApplicationTests(
     @Qualifier("coinmarketcapqueriesimpl") CoinmarketcapQueries coinmarketcapQueries,
-    @Qualifier("buylowsellhighalgo") BuyLowSellHigh buyLowSellHigh,
+    @Qualifier("buyandhodlalgo") BuyAndHodl buyAndHodl,
     CoinmarketcapConfig coinmarketcapConfig, AlgoConfig algoConfig) {
-    this.algo = buyLowSellHigh;
+    this.algo = buyAndHodl;
     this.coinmarketcapQueries = coinmarketcapQueries;
     this.coinmarketcapConfig = coinmarketcapConfig;
     this.algoConfig = algoConfig;
@@ -51,6 +52,11 @@ class StackrsServiceApplicationTests {
 
   @Test
   void canExecuteBuyLowSellHigh() {
+    //algo.execute();
+  }
+
+  @Test
+  void canExecuteBuyAndHodl() {
     algo.execute();
   }
 

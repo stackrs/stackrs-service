@@ -17,9 +17,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static com.binance.api.client.domain.account.NewOrder.marketBuy;
 import static com.binance.api.client.domain.account.NewOrder.limitSell;
@@ -68,17 +65,16 @@ public class BuyLowSellHigh implements Algo {
     double limit_price = market_price + (market_price * algoConfig.getTarget_profit());
     double amount = algoConfig.getTarget_min_balance() / market_price;
 
-    log.info("Executing with " + pair +
+    log.info("Executing: " + pair +
       ", %_change: " + picked_symbol.getTarget_coin_quote().getPercent_change_24h() +
       ", market_price: " + market_price +
       ", limit_price: " + limit_price +
       ", amount: " + amount);
 
-    /*
 
-    NewOrderResponse newMarketOrderResponse = binanceAPI.getRestClient().newOrder(marketBuy(picked_symbol, String.valueOf(amount)).newOrderRespType(NewOrderResponseType.RESULT));
-    NewOrderResponse newLimitOrderResponse = binanceAPI.getRestClient().newOrder(limitSell(picked_symbol, TimeInForce.GTC, String.valueOf(amount), String.valueOf(limit_price)));
-  */
+    NewOrderResponse newMarketOrderResponse = binanceAPI.getRestClient().newOrder(marketBuy(pair, String.valueOf(amount)).newOrderRespType(NewOrderResponseType.RESULT));
+    NewOrderResponse newLimitOrderResponse = binanceAPI.getRestClient().newOrder(limitSell(pair, TimeInForce.GTC, String.valueOf(amount), String.valueOf(limit_price)));
+
   }
 
   private boolean canTrade(ListingEntry coin, String target_coin) {
