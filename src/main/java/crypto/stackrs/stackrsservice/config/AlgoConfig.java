@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="algo")
 @Data
 public class AlgoConfig {
-  private String base_fiat;
-  private String target_coin;
-  private double target_fiat_amount;
-  private double target_min_balance;
+  private String stacking_pair;
+  private double base_amount;
+  private String target_crypto;
+  private double target_amount;
   private double target_profit;
+  private int default_precision;
 }

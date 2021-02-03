@@ -1,37 +1,37 @@
 package crypto.stackrs.stackrsservice.algo;
 
-import crypto.stackrs.stackrsservice.binance.BinanceAPI;
-import crypto.stackrs.stackrsservice.config.AlgoConfig;
+import com.binance.api.client.BinanceApiRestClient;
+import com.binance.api.client.domain.account.NewOrderResponseType;
+import com.binance.api.client.exception.BinanceApiException;
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
-@Service
+import static com.binance.api.client.domain.account.NewOrder.marketBuy;
+
 @Slf4j
-@Qualifier("buyandhodlalgo")
+@Builder
 public class BuyAndHodl implements Algo {
 
-  private final AlgoConfig algoConfig;
-  private final BinanceAPI binanceAPI;
-
-  @Autowired
-  public BuyAndHodl(
-    AlgoConfig algoConfig, BinanceAPI binanceAPI) {
-    this.algoConfig = algoConfig;
-    this.binanceAPI = binanceAPI;
-  }
+  private String pair;
+  private double amount;
+  private int precision;
+  private BinanceApiRestClient binanceApiRestClient;
 
   @Override
   public void execute() {
 
-    double balance = Double.parseDouble(binanceAPI.getRestClient().getAccount().getAssetBalance(algoConfig.getBase_fiat()).getFree());
+    try {
+      String precision = "%." + this.precision + "f";
+      String amount = String.format (precision, this.amount);
 
-    if( balance < algoConfig.getTarget_fiat_amount()) {
-      log.warn("Available " + algoConfig.getBase_fiat() + " balance " + balance + " is less than min balance " + algoConfig.getTarget_fiat_amount());
-      return;
+      log.info("About to buy " + amount + " " + this.pair);
+
+      this.binanceApiRestClient.newOrder(marketBuy(this.pair, "").quoteOrderQty(amount).newOrderRespType(NewOrderResponseType.RESULT));
+
+    } catch( BinanceApiException ex) {
+      log.warn(ex.getMessage());
+    } catch( Exception ex) {
+      log.error(ex.getMessage());
     }
-
-
   }
 }
