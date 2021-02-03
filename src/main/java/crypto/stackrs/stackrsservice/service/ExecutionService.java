@@ -1,24 +1,55 @@
 package crypto.stackrs.stackrsservice.service;
 
-import com.binance.api.client.BinanceApiWebSocketClient;
 import com.binance.api.client.domain.event.AccountUpdateEvent;
 import com.binance.api.client.domain.event.BalanceUpdateEvent;
 import com.binance.api.client.domain.event.OrderTradeUpdateEvent;
 import com.binance.api.client.domain.event.UserDataUpdateEvent;
+import crypto.stackrs.stackrsservice.algo.BuyAndHodl;
 import crypto.stackrs.stackrsservice.binance.BinanceAPI;
+import crypto.stackrs.stackrsservice.config.AlgoConfig;
+import crypto.stackrs.stackrsservice.config.CoinmarketcapConfig;
+import crypto.stackrs.stackrsservice.config.SecurityConfig;
+import crypto.stackrs.stackrsservice.config.WebClientConfiguration;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
 @Service
 @Slf4j
-public class UserStream {
+public class ExecutionService {
 
+  private final CoinmarketcapConfig coinmarketcapConfig;
+  private final AlgoConfig algoConfig;
+  private final SecurityConfig securityConfig;
+  private final WebClientConfiguration webClientConfiguration;
   private final BinanceAPI binanceAPI;
 
-  UserStream(BinanceAPI binanceAPI) {
+  @Autowired
+  public ExecutionService(
+    CoinmarketcapConfig coinmarketcapConfig,
+    AlgoConfig algoConfig,
+    SecurityConfig securityConfig,
+    WebClientConfiguration webClientConfiguration,
+    BinanceAPI binanceAPI) {
+    this.coinmarketcapConfig = coinmarketcapConfig;
+    this.algoConfig = algoConfig;
+    this.securityConfig = securityConfig;
+    this.webClientConfiguration = webClientConfiguration;
     this.binanceAPI = binanceAPI;
+  }
+
+  @Scheduled(cron = "${algo.stacking_schedule}")
+  void execute_buy_and_hodl() {
+    BuyAndHodl.builder()
+      .amount(algoConfig.getBase_amount())
+      .pair(algoConfig.getStacking_pair())
+      .precision(algoConfig.getDefault_precision())
+      .binanceApiRestClient(binanceAPI.getRestClient())
+      .build()
+      .execute();
   }
 
   @PostConstruct

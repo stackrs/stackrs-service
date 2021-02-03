@@ -68,20 +68,4 @@ class StackrsServiceApplicationTests {
   */
   }
 
-  @Test
-  void canExecuteBuyLowSellHigh() {
-  }
-
-  @Test
-  void canExecuteBuyAndHodl() {
-    /*BuyAndHodl.builder()
-      .amount(algoConfig.getBase_amount())
-      .pair(algoConfig.getStacking_pair())
-      .precision(algoConfig.getDefault_precision())
-      .binanceApiRestClient(binanceAPI.getRestClient())
-      .build()
-      .execute();
-     */
-  }
-
 }

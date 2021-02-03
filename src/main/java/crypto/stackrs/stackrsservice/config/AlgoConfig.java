@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="algo")
 @Data
 public class AlgoConfig {
+  private String stacking_schedule;
   private String stacking_pair;
   private double base_amount;
   private String target_crypto;
