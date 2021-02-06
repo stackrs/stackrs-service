@@ -9,7 +9,8 @@ security:
     binance_api_secret: ${sm://binance_api_secret}
     coinmarketcap_api_key: ${sm://coinmarketcap_api_key}
 algo:
-  stacking_schedule: "0 0 20 * * *"
+  #stacking_schedule: "0 0 20 * * *"
+  stacking_schedule: "*/5 * * * * *"
   stacking_pair: BTCGBP
   base_amount: 10
   target_crypto: BTC
